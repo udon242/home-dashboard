@@ -1,49 +1,54 @@
-import {createHmac} from 'crypto';
-import styles from './page.module.css'
+import {FaCloud} from 'react-icons/fa'
+import fetchDeviceList from '@/app/switchbot/fetchDeviceList';
+import {css} from '@/styled-system/css';
+import {Center, Container, Box, Grid, GridItem, HStack} from '@/styled-system/jsx';
+import Link from "next/link";
 
-async function getData() {
-  const token = process.env.SWITCH_BOT_TOKEN || '';
-  const secret = process.env.SWITCH_BOT_SECRET || '';
-  const nonce = 'requestID';
-  const t = String(Date.now());
-  const data = token + t + nonce;
-  const signTerm = createHmac('sha256', secret)
-    .update(Buffer.from(data, 'utf-8'))
-    .digest();
-  const sign = signTerm.toString("base64");
-
-  const headers: HeadersInit = {
-    'Authorization': token,
-    'sign': sign,
-    'nonce': nonce,
-    't': t,
-    'Content-Type': 'application/json'
-  }
-  const res = await fetch('https://api.switch-bot.com/v1.1/devices', {
-    headers,
-  })
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
+type Device = {
+  deviceName: string;
+  deviceId: string;
+  deviceType: string;
+  enableCloudService: boolean;
 }
 
 export default async function Switchbot() {
-  const data = await getData()
-  console.log(data.body)
+  const data = await fetchDeviceList();
+  console.info('fetch data: ', data.body)
   return (
-    <main className={styles.main}>
-      <p>
-        <h2>デバイス一覧</h2>
-        <ul>
-          {data.body.deviceList.map((device: { deviceName: string }) => {
+    <main>
+      <Container paddingX={2}>
+        <Center paddingY={4}>
+          <h2 className={css({fontSize: 24, fontWeight: 'bold'})}>
+            デバイス一覧
+          </h2>
+        </Center>
+
+        <Grid columns={{base: 2, sm: 3}} gap={4}>
+          {data.body.deviceList.map((device: Device) => {
             return (
-              <li>{device.deviceName}</li>
+              <GridItem key={device.deviceId}>
+                <Link href={`/switchbot/${device.deviceId}`}>
+                  <HStack
+                    alignItems={'flex-start'}
+                    justifyContent={'space-between'}
+                    borderWidth={1}
+                    borderRadius={8}
+                    borderColor={'#7A7A7A'}
+                    padding={4}
+                    height={'full'}
+                  >
+                    <Box>
+                      <h3 className={css({fontWeight: 'bold'})}>{device.deviceName}</h3>
+                      <Box color={'#B5B5B5'}>{device.deviceType}</Box>
+                    </Box>
+                    <FaCloud color={device.enableCloudService ? '#3D3D3D' : '#D9D9D9'}/>
+                  </HStack>
+                </Link>
+              </GridItem>
             )
           })}
-        </ul>
-      </p>
+        </Grid>
+      </Container>
     </main>
   )
 }
