@@ -17,7 +17,7 @@ export default async function Home() {
   return (
     <main className={css({ minH: '100vh', backgroundColor: '#FFF' })}>
       <Container paddingX={2}>
-        <PageTitle>デバイス一覧</PageTitle>
+        <PageTitle>部屋の状態</PageTitle>
         <MeterList initialMeterList={meters} />
       </Container>
     </main>
