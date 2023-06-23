@@ -11,7 +11,7 @@ export type Meter = {
   humidity: number;
 };
 
-export default async function Switchbot() {
+export default async function Home() {
   const meters = await getMeter();
   return (
     <main>
