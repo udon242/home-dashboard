@@ -19,7 +19,7 @@ const fetcher = async (url: string) => {
 const MeterListChild: React.FC = () => {
   const { data } = useSWR(API_URL, fetcher);
   return (
-    <Grid columns={{ base: 2, sm: 3 }} gap={4}>
+    <Grid columns={{ base: 2, sm: 3, lg: 4 }} gap={4}>
       {data?.map((device: Meter) => {
         return (
           <GridItem key={device.deviceId}>
