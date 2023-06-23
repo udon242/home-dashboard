@@ -1,6 +1,6 @@
 import {createHmac} from 'crypto';
 
-export default async function fetchDeviceList() {
+export function createHeaders(): HeadersInit {
   const token = process.env.SWITCH_BOT_TOKEN || '';
   const secret = process.env.SWITCH_BOT_SECRET || '';
   const nonce = 'requestID';
@@ -11,19 +11,11 @@ export default async function fetchDeviceList() {
     .digest();
   const sign = signTerm.toString("base64");
 
-  const headers: HeadersInit = {
+  return {
     'Authorization': token,
     'sign': sign,
     'nonce': nonce,
     't': t,
     'Content-Type': 'application/json'
   }
-  const res = await fetch('https://api.switch-bot.com/v1.1/devices', {
-    headers,
-  })
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
 }
