@@ -9,7 +9,10 @@ import { Grid, GridItem } from '@/styled-system/jsx';
 const API_URL = '/api/meters';
 
 const fetcher = async (url: string) => {
-  const res = await fetch(url);
+  const urlObj = new URL(window.location.href);
+  const token = urlObj.searchParams.get('token');
+  const query = token ? `?token=${token}` : '';
+  const res = await fetch(`${url}${query}`);
   return res.json() as Promise<Meter[]>;
 };
 

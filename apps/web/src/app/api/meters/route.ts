@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { getMeter } from '@/app/service';
-import { authValidator } from '@/utils/auth';
+import { requestValidator } from '@/utils/auth';
 
-export async function GET(request: Request) {
-  authValidator(request.headers.get('authorization'));
+export async function GET(request: NextRequest) {
+  requestValidator(request);
   return NextResponse.json(await getMeter());
 }

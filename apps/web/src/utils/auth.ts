@@ -1,3 +1,5 @@
+import { NextRequest } from 'next/server';
+
 class UnauthorizedError extends Error {
   constructor() {
     super();
@@ -5,7 +7,14 @@ class UnauthorizedError extends Error {
   }
 }
 
-export function authValidator(basicAuth: string | null) {
+export function requestValidator(request: NextRequest) {
+  const queryToken = request.nextUrl.searchParams.get('token');
+  const queryBasic = queryToken ? `Basic ${queryToken}` : null;
+  const basicAuth = request.headers.get('authorization') || queryBasic;
+  authValidator(basicAuth);
+}
+
+function authValidator(basicAuth: string | null) {
   if (!basicAuth) {
     throw new UnauthorizedError();
   }

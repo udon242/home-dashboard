@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
 
-import { authValidator } from '@/utils/auth';
+import { requestValidator } from '@/utils/auth';
 
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const basicAuth = request.headers.get('authorization');
   try {
-    authValidator(basicAuth);
+    requestValidator(request);
     return NextResponse.next();
   } catch (_) {
     return new Response('Auth required', {
