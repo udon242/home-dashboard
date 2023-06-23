@@ -46,5 +46,5 @@ export function isOverTemperature(meter: UIMeter) {
 }
 
 export function isOverHumidity(meter: UIMeter) {
-  return meter.humidity > 60;
+  return meter.humidity > 65;
 }
