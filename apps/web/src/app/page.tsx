@@ -15,7 +15,7 @@ export type Meter = {
 export default async function Home() {
   const meters = await getMeter();
   return (
-    <main className={css({ height: '100vh', backgroundColor: '#FFF' })}>
+    <main className={css({ minH: '100vh', backgroundColor: '#FFF' })}>
       <Container paddingX={2}>
         <PageTitle>デバイス一覧</PageTitle>
         <MeterList initialMeterList={meters} />
