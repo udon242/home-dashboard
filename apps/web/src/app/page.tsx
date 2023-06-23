@@ -1,9 +1,7 @@
-import MeterCard from '@/app/_components/MeterCard';
+import MeterList from '@/app/_components/MeterList';
 import PageTitle from '@/app/_components/PageTitle';
 import { getMeter } from '@/app/service';
-import { Container, Grid, GridItem } from '@/styled-system/jsx';
-
-export const revalidate = 5;
+import { Container } from '@/styled-system/jsx';
 
 export type Meter = {
   deviceName: string;
@@ -19,15 +17,7 @@ export default async function Switchbot() {
     <main>
       <Container paddingX={2}>
         <PageTitle>デバイス一覧</PageTitle>
-        <Grid columns={{ base: 2, sm: 3 }} gap={4}>
-          {meters.map((device: Meter) => {
-            return (
-              <GridItem key={device.deviceId}>
-                <MeterCard {...device} />
-              </GridItem>
-            );
-          })}
-        </Grid>
+        <MeterList initialMeterList={meters} />
       </Container>
     </main>
   );
