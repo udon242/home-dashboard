@@ -38,7 +38,7 @@ const MeterList: React.FC<{ initialMeterList: Meter[] }> = ({
     <SWRConfig
       value={{
         fallback: { [API_URL]: initialMeterList },
-        refreshInterval: 10000,
+        refreshInterval: 30000,
       }}
     >
       <MeterListChild />
