@@ -66,7 +66,7 @@ export async function fetchDeviceList(): Promise<DeviceListResponse> {
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
-  return res.json();
+  return res.json() as Promise<DeviceListResponse>;
 }
 
 export async function fetchDeviceStatus(
@@ -82,7 +82,7 @@ export async function fetchDeviceStatus(
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
-  return res.json();
+  return res.json() as Promise<DeviceStatusResponse>;
 }
 
 export async function fetchNatureRemoDevices(): Promise<NatureRemoDevicesResponse> {
@@ -93,5 +93,5 @@ export async function fetchNatureRemoDevices(): Promise<NatureRemoDevicesRespons
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
-  return res.json();
+  return res.json() as Promise<NatureRemoDevicesResponse>;
 }
