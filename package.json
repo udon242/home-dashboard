@@ -4,6 +4,7 @@
   "description": "home dashboard",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky install",
     "dev": "pnpm --filter \"web\" dev"
   },
   "keywords": [],
@@ -14,5 +15,12 @@
     "npm": "use pnpm please!",
     "yarn": "use pnpm please!",
     "pnpm": ">=8.6.3"
+  },
+  "lint-staged": {
+    "apps/web/**/*": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2"
   }
 }
