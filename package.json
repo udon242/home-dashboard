@@ -17,7 +17,8 @@
     "pnpm": ">=8.6.3"
   },
   "lint-staged": {
-    "apps/web/**/*": "prettier --write --ignore-unknown"
+    "apps/web/**/*": "prettier --write --ignore-unknown",
+    "apps/catt-batch/**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
     "husky": "^8.0.3",

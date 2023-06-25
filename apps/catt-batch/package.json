@@ -2,11 +2,20 @@
   "name": "catt-batch",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node index.ts",
+    "format": "prettier --write"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cron": "^2.0.1",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "cron": "^2.3.1"
+  }
 }
