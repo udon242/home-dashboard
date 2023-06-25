@@ -2,7 +2,7 @@ import { createHmac } from 'crypto';
 
 type DeviceListResponse = {
   body: {
-    deviceList: {
+    deviceList?: {
       deviceName: string;
       deviceId: string;
       deviceType: string;

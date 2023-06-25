@@ -22,9 +22,10 @@ export async function getMeter(): Promise<UIMeter[]> {
   }
 
   const deviceListResponse = await fetchDeviceList();
-  const meterList = deviceListResponse.body.deviceList.filter((device) =>
-    ['Meter', 'Hub 2'].includes(device.deviceType)
-  );
+  const meterList =
+    deviceListResponse.body.deviceList?.filter((device) =>
+      ['Meter', 'Hub 2'].includes(device.deviceType)
+    ) || [];
   const switchBotMeters = await Promise.all(
     meterList.map(async (meter) => {
       const deviceStatus = await fetchDeviceStatus(meter.deviceId);
