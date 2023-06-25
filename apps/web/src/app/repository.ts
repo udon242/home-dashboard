@@ -62,7 +62,6 @@ export async function fetchDeviceList(): Promise<DeviceListResponse> {
   const headers = createHeaders();
   const res = await fetch('https://api.switch-bot.com/v1.1/devices', {
     headers,
-    next: { revalidate: 10 },
   });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
@@ -78,7 +77,6 @@ export async function fetchDeviceStatus(
     `https://api.switch-bot.com/v1.1/devices/${deviceId}/status`,
     {
       headers,
-      next: { revalidate: 10 },
     }
   );
   if (!res.ok) {
@@ -91,7 +89,6 @@ export async function fetchNatureRemoDevices(): Promise<NatureRemoDevicesRespons
   const headers = createNatureRemoAPIHeaders();
   const res = await fetch('https://api.nature.global/1/devices', {
     headers,
-    next: { revalidate: 10 },
   });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
