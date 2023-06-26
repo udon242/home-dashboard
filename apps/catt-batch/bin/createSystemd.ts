@@ -1,4 +1,5 @@
 import { program } from 'commander';
+import { writeFileSync } from 'fs';
 
 program
   .requiredOption('--workDir <workDir>', 'working directory')
@@ -28,3 +29,5 @@ WantedBy=multi-user.target
 `;
 
 console.info(systemd);
+
+writeFileSync('/etc/systemd/system/catt-batch.service', systemd);
