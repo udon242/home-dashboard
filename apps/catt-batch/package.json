@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts",
+    "createSystemd": " ts-node bin/createSystemd.ts ",
     "format": "prettier --write"
   },
   "keywords": [],
@@ -16,6 +17,7 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "commander": "^11.0.0",
     "cron": "^2.3.1"
   }
 }
