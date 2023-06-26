@@ -1,5 +1,6 @@
-import { program } from 'commander';
 import { writeFileSync } from 'fs';
+import { execSync } from 'child_process';
+import { program } from 'commander';
 
 program
   .requiredOption('--workDir <workDir>', 'working directory')
@@ -31,3 +32,5 @@ WantedBy=multi-user.target
 console.info(systemd);
 
 writeFileSync('/etc/systemd/system/catt-batch.service', systemd);
+execSync('sudo systemctl daemon-reload');
+execSync('sudo systemctl enable catt-batch');
