@@ -6,26 +6,20 @@ import { CATTMessage, CATTTopic } from 'entity';
 import { castUrl } from './usecase/cast-url';
 import { castStop } from './usecase/cast-stop';
 
-const CATT_DEVICE = process.env.CATT_DEVICE;
-const CATT_CAST_URL = process.env.CATT_CAST_URL;
-const MQTT_USER_NAME = process.env.MQTT_USER_NAME;
-const MQTT_PASSWORD = process.env.MQTT_PASSWORD;
-const MQTT_URL = process.env.MQTT_URL;
-if (!CATT_DEVICE) {
-  throw new Error('env CATT_DEVICE is undefined');
+const envNames = [
+  'CATT_DEVICE',
+  'CATT_CAST_URL',
+  'MQTT_USER_NAME',
+  'MQTT_PASSWORD',
+  'MQTT_URL',
+];
+for (const envName in envNames) {
+  if (!process.env[envName]) {
+    throw new Error(`env ${envName} is undefined`);
+  }
 }
-if (!CATT_CAST_URL) {
-  throw new Error('env CATT_CAST_URL is undefined');
-}
-if (!MQTT_USER_NAME) {
-  throw new Error('env MQTT_USER_NAME is undefined');
-}
-if (!MQTT_PASSWORD) {
-  throw new Error('env MQTT_PASSWORD is undefined');
-}
-if (!MQTT_URL) {
-  throw new Error('env MQTT_URL is undefined');
-}
+const { CATT_DEVICE, CATT_CAST_URL, MQTT_USER_NAME, MQTT_PASSWORD, MQTT_URL } =
+  process.env;
 
 const TOPIC: CATTTopic = 'catt';
 
