@@ -24,7 +24,7 @@ User=pi
 # Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
 Group=nogroup
 WorkingDirectory=${opts.workDir}
-Environment=PATH=/usr/bin:/usr/local/bin:~/.local/bin
+Environment=PATH=/usr/bin:/usr/local/bin:/home/pi/.local/bin
 Environment=CATT_DEVICE=${opts.device}
 Environment=CATT_CAST_URL=${opts.url}
 Environment=MQTT_USER_NAME=${opts.mqttUserName}
