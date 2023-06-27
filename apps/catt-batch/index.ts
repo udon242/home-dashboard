@@ -1,46 +1,74 @@
 import { CronJob } from 'cron';
-import { execSync } from 'child_process';
+import { connect } from 'mqtt';
 
-const DEVICE = process.env.CATT_DEVICE;
+import { CATTMessage, CATTTopic } from 'entity';
+
+import { castUrl } from './usecase/cast-url';
+import { castStop } from './usecase/cast-stop';
+
+const CATT_DEVICE = process.env.CATT_DEVICE;
 const CATT_CAST_URL = process.env.CATT_CAST_URL;
+const MQTT_USER_NAME = process.env.MQTT_USER_NAME;
+const MQTT_PASSWORD = process.env.MQTT_PASSWORD;
+const MQTT_URL = process.env.MQTT_URL;
+if (!CATT_DEVICE) {
+  throw new Error('env CATT_DEVICE is undefined');
+}
+if (!CATT_CAST_URL) {
+  throw new Error('env CATT_CAST_URL is undefined');
+}
+if (!MQTT_USER_NAME) {
+  throw new Error('env MQTT_USER_NAME is undefined');
+}
+if (!MQTT_PASSWORD) {
+  throw new Error('env MQTT_PASSWORD is undefined');
+}
+if (!MQTT_URL) {
+  throw new Error('env MQTT_URL is undefined');
+}
 
-const sleep = (millSecond: number) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, millSecond);
-  });
-};
+const TOPIC: CATTTopic = 'catt';
 
-const job = async () => {
-  if (!DEVICE) {
-    console.error('env CATT_DEVICE is undefined');
+const client = connect(
+  `mqtt://${MQTT_USER_NAME}:${MQTT_PASSWORD}@${MQTT_URL}`,
+  {
+    clientId: 'catt-batch',
+  }
+);
+client.on('connect', () => {
+  client.subscribe(TOPIC);
+});
+client.on('error', (error) => {
+  console.error(error);
+});
+client.on('message', async (topic: CATTTopic, payload) => {
+  if (topic !== 'catt') {
+    console.error(`Unknown topic: ${topic}`);
     return;
   }
-  if (!CATT_CAST_URL) {
-    console.error('env CATT_CAST_URL is undefined');
-    return;
+
+  const message: CATTMessage = JSON.parse(payload.toString());
+  switch (message.action) {
+    case 'cast':
+      await castUrl({ device: CATT_DEVICE, url: CATT_CAST_URL });
+      break;
+    case 'stop':
+      await castStop({ device: CATT_DEVICE, url: CATT_CAST_URL });
+      break;
   }
-
-  console.info('catt batch start');
-
-  const volume = execSync(`catt -d ${DEVICE} status`)
-    .toString()
-    .match(/Volume:\s(\d+)/)?.[1];
-
-  execSync(`catt -d ${DEVICE} volume 0`);
-
-  execSync(`catt -d ${DEVICE} cast_site '${CATT_CAST_URL}'`);
-
-  execSync(`catt -d ${DEVICE} volume ${volume}`);
-
-  await sleep(30000);
-
-  execSync(`catt -d ${DEVICE} stop`);
-
-  console.info('catt batch end');
-};
+});
 
 (function () {
-  new CronJob('0 0 * * * *', job, null, true, 'Asia/Tokyo');
+  new CronJob(
+    '0 0 * * * *',
+    () => {
+      const message: CATTMessage = {
+        action: 'cast',
+      };
+      client.publish(TOPIC, JSON.stringify(message));
+    },
+    null,
+    true,
+    'Asia/Tokyo'
+  );
 })();

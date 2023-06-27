@@ -5,7 +5,10 @@ import { program } from 'commander';
 program
   .requiredOption('--workDir <workDir>', 'working directory')
   .requiredOption('--device <device>', 'デバイス名 or IPアドレス')
-  .requiredOption('--url <url>', 'URL');
+  .requiredOption('--url <url>', 'URL')
+  .requiredOption('--mqttUserName <mqttUserName>', 'MQTT user name')
+  .requiredOption('--mqttPassword <mqttPassword>', 'MQTT password')
+  .requiredOption('--mqttUrl <mqttUrl>', 'MQTT url');
 program.parse(process.argv);
 const opts = program.opts();
 
@@ -24,6 +27,9 @@ WorkingDirectory=${opts.workDir}
 Environment=PATH=/usr/bin:/usr/local/bin:~/.local/bin
 Environment=CATT_DEVICE=${opts.device}
 Environment=CATT_CAST_URL=${opts.url}
+Environment=MQTT_USER_NAME=${opts.mqttUserName}
+Environment=MQTT_PASSWORD=${opts.mqttPassword}
+Environment=MQTT_URL=${opts.mqttUrl}
 
 [Install]
 WantedBy=multi-user.target
