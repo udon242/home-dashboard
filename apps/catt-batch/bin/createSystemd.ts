@@ -34,3 +34,4 @@ console.info(systemd);
 writeFileSync('/etc/systemd/system/catt-batch.service', systemd);
 execSync('sudo systemctl daemon-reload');
 execSync('sudo systemctl enable catt-batch');
+execSync('sudo systemctl start catt-batch');
