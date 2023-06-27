@@ -47,6 +47,7 @@ client.on('message', async (topic: CATTTopic, payload) => {
     return;
   }
 
+  console.info('subscribe message job start');
   const message: CATTMessage = JSON.parse(payload.toString());
   switch (message.action) {
     case 'cast':
