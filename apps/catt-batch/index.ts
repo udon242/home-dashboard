@@ -7,20 +7,13 @@ import { castUrl } from './usecase/cast-url';
 import { castStop } from './usecase/cast-stop';
 import { castVolume } from './usecase/cast-volume';
 
-const envNames = [
-  'CATT_DEVICE',
-  'CATT_CAST_URL',
-  'MQTT_USER_NAME',
-  'MQTT_PASSWORD',
-  'MQTT_URL',
-];
-for (const envName in envNames) {
-  if (!process.env[envName]) {
-    throw new Error(`env ${envName} is undefined`);
-  }
-}
 const { CATT_DEVICE, CATT_CAST_URL, MQTT_USER_NAME, MQTT_PASSWORD, MQTT_URL } =
   process.env;
+if (!CATT_DEVICE) throw new Error();
+if (!CATT_CAST_URL) throw new Error();
+if (!MQTT_USER_NAME) throw new Error();
+if (!MQTT_PASSWORD) throw new Error();
+if (!MQTT_URL) throw new Error();
 
 const TOPIC: CATTTopic = 'catt';
 
