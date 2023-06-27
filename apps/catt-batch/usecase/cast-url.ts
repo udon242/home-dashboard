@@ -1,6 +1,10 @@
 import { execSync } from 'child_process';
 
-export async function castUrl(args: { device: string; url: string }) {
+export async function castUrl(args: {
+  device: string;
+  url: string;
+  duration: number;
+}) {
   const volume = execSync(`catt -d ${args.device} status`)
     .toString()
     .match(/Volume:\s(\d+)/)?.[1];
@@ -11,7 +15,7 @@ export async function castUrl(args: { device: string; url: string }) {
 
   execSync(`catt -d ${args.device} volume ${volume}`);
 
-  await sleep(30000);
+  await sleep(args.duration);
 
   execSync(`catt -d ${args.device} stop`);
 }

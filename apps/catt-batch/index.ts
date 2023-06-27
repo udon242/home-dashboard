@@ -1,10 +1,11 @@
 import { CronJob } from 'cron';
 import { connect } from 'mqtt';
 
-import { CATTMessage, CATTTopic } from 'entity';
+import { CATTCastMessage, CATTMessage, CATTTopic } from 'entity';
 
 import { castUrl } from './usecase/cast-url';
 import { castStop } from './usecase/cast-stop';
+import { castVolume } from './usecase/cast-volume';
 
 const envNames = [
   'CATT_DEVICE',
@@ -45,11 +46,17 @@ client.on('message', async (topic: CATTTopic, payload) => {
   const message: CATTMessage = JSON.parse(payload.toString());
   switch (message.action) {
     case 'cast':
-      await castUrl({ device: CATT_DEVICE, url: CATT_CAST_URL });
+      await castUrl({
+        device: CATT_DEVICE,
+        url: CATT_CAST_URL,
+        duration: message.duration,
+      });
       break;
     case 'stop':
-      await castStop({ device: CATT_DEVICE, url: CATT_CAST_URL });
+      await castStop({ device: CATT_DEVICE });
       break;
+    case 'volume':
+      await castVolume({ device: CATT_DEVICE, volume: message.volume });
   }
 });
 
@@ -57,8 +64,9 @@ client.on('message', async (topic: CATTTopic, payload) => {
   new CronJob(
     '0 0 * * * *',
     () => {
-      const message: CATTMessage = {
+      const message: CATTCastMessage = {
         action: 'cast',
+        duration: 60000,
       };
       client.publish(TOPIC, JSON.stringify(message));
     },

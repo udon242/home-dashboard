@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
 
-export async function castStop(args: { device: string; url: string }) {
+export async function castStop(args: { device: string }) {
   execSync(`catt -d ${args.device} stop`);
 }
