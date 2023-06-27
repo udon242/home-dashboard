@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node index.ts",
     "createSystemd": " ts-node bin/createSystemd.ts ",
+    "restart": "ts-node bin/restart.ts",
     "format": "prettier --write"
   },
   "keywords": [],
