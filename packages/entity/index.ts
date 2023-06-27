@@ -1,1 +1,1 @@
-export * from "./catt-types";
+export * from './catt-types';
