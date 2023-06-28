@@ -28,6 +28,7 @@ const client = connect(
 client.on('connect', () => {
   const message: CATTMessage = {
     action: 'cast',
+    duration: 30000,
   };
   client.publish(TOPIC, JSON.stringify(message));
   client.end();

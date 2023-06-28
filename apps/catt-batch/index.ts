@@ -1,7 +1,7 @@
 import { CronJob } from 'cron';
 import { connect } from 'mqtt';
 
-import { CATTCastMessage, CATTMessage, CATTTopic } from 'entity';
+import { CATTMessage, CATTTopic } from 'entity';
 
 import { castUrl } from './usecase/cast-url';
 import { castStop } from './usecase/cast-stop';
@@ -56,12 +56,12 @@ client.on('message', async (topic: CATTTopic, payload) => {
 (function () {
   new CronJob(
     '0 0 * * * *',
-    () => {
-      const message: CATTCastMessage = {
-        action: 'cast',
+    async () => {
+      await castUrl({
+        device: CATT_DEVICE,
+        url: CATT_CAST_URL,
         duration: 60000,
-      };
-      client.publish(TOPIC, JSON.stringify(message));
+      });
     },
     null,
     true,
