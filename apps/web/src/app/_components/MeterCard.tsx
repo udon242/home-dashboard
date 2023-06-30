@@ -14,16 +14,16 @@ const MeterCard: React.FC<Meter> = (meter) => (
     height={'full'}
   >
     <Box>
-      <h3 className={css({ fontSize: 20, fontWeight: 'bold' })}>
+      <h3 className={css({ fontSize: 24, fontWeight: 'bold' })}>
         {meter.deviceName}
       </h3>
       <Box
         color={isOverTemperature(meter) ? '#CD2B2B' : '#B5B5B5'}
-        fontSize={20}
+        fontSize={24}
       >
         {meter.temperature}℃
       </Box>
-      <Box color={isOverHumidity(meter) ? '#CD2B2B' : '#B5B5B5'} fontSize={20}>
+      <Box color={isOverHumidity(meter) ? '#CD2B2B' : '#B5B5B5'} fontSize={24}>
         {meter.humidity}%
       </Box>
     </Box>
